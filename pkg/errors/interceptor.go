@@ -4,8 +4,8 @@ import (
 	"context"
 	"io"
 
-	"github.com/chise0904/golang_template/grpc/interceptor"
-	"github.com/chise0904/golang_template/trace"
+	"github.com/chise0904/golang_template/pkg/grpc/interceptor"
+	"github.com/chise0904/golang_template/pkg/trace"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 
