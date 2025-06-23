@@ -3,7 +3,7 @@ package interceptor
 import (
 	"context"
 
-	"github.com/chise0904/golang_template/trace"
+	"github.com/chise0904/golang_template/pkg/trace"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 )
