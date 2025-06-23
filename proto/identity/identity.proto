@@ -1,0 +1,302 @@
+syntax = "proto3";
+package identity;
+
+option go_package = "github.com/chise0904/golang_template/proto/pkg/identity";
+
+import "common/pagination.proto";
+import "google/protobuf/empty.proto";
+import "common/type.proto";
+
+service IdentityService {
+    rpc RegisterAccount(RegisterAccountRequest) returns (RegisterAccountResponse); // reqister user account
+
+    rpc CreateAccount(CreateAccountRequest)
+        returns (CreateAccountResponse); // create account with account type (admin only)
+    rpc EmailVerification(EmailVerificationRequest) returns (VerificationResponse);
+    rpc SetPassword(SetPasswordRequest) returns (google.protobuf.Empty);
+    rpc DeleteOneAccount(DeleteOneAccountRequest) returns (google.protobuf.Empty);
+    rpc GetOneAccount(GetOneAccountRequest) returns (AccountInfo);
+    rpc GetAllAccount(GetAllAccountRequest) returns (GetAllAccountResponse);
+    rpc GetProfile(GetProfileRequest) returns (UserProfile);
+    rpc ListProfiles(ListProfilesRequest) returns (ListProfilesResponse);
+    rpc UpdateProfile(UpdateProfileRequest) returns (google.protobuf.Empty);
+    rpc ChangeContacts(ChangeContactsRequest) // change email,phone
+        returns (google.protobuf.Empty);
+    rpc ModifyPermissions(ModifyPermissionsRequest) returns (google.protobuf.Empty);
+
+    rpc LoginAccount(LoginAccountRequest) returns (LoginAccountResponse);
+    rpc ReFreshToken(ReFreshTokenRequest) returns (ReFreshTokenResponse);
+    rpc CheckAccessToken(CheckAccessTokenRequest) returns (CheckAccessTokenResponse);
+    rpc SendVerificationCode(SendVerificationCodeRequest) returns (google.protobuf.Empty);
+
+    rpc SetAccountBlockStatus(SetAccountBlockStatusRequest) returns (google.protobuf.Empty);
+}
+
+// request
+message RegisterAccountRequest {
+    string email = 1;
+    string password = 2;
+    string user_name = 3;
+    Permission permission = 4; // 權限
+}
+message EmailVerificationRequest {
+    string access_token = 1;
+    string email = 2;
+    string code = 3;
+}
+message SetPasswordRequest {
+    string by = 1;
+    string access_token = 2;
+    string password = 3;
+    string old_password = 4;
+    string phone = 5;
+    string email = 6;
+    string code = 7;
+}
+message DeleteOneAccountRequest { string account_id = 1; }
+message GetOneAccountRequest { string account_id = 1; }
+message GetAllAccountRequest {
+    string by = 1;
+    string sort = 2;
+    uint32 page = 3;
+    uint32 perpage = 4;
+    string filter = 5;
+    repeated string user_ids = 6;
+    repeated AccountType account_types = 7;
+}
+message GetProfileRequest { string account_id = 1; }
+message UpdateProfileRequest {
+    string account_id = 1;
+    // profile
+    string user_name = 2;
+    bytes icon = 3;
+    string description = 4;
+    string gender = 5;
+    Date birthday = 6;
+    string job = 7;
+    string country = 8;
+    string city = 9;
+    string district = 15;
+    string zip_code = 16;
+    string address = 10;
+    repeated Adderss shipping_address = 11;
+    // personal setting
+    string language = 12;
+
+    common.BoolType email_noti = 13;
+    common.BoolType phone_noti = 14;
+}
+message ChangeContactsRequest {
+    string account_id = 1;
+    string email = 2;
+    string phone = 3;
+    string category = 4; // email, phone
+}
+message ModifyPermissionsRequest {
+    string account_id = 1;
+    string target_id = 2;
+    Permission permission = 3;
+}
+
+message LoginAccountRequest {
+    string connection = 1;
+    string grant_type = 2;
+    string email = 3;
+    string password = 4;
+    string phone = 5;
+    string code = 6;
+    string client_id = 7;
+    string client_secret = 8;
+}
+message CheckAccessTokenRequest { string access_token = 1; }
+message SendVerificationCodeRequest {
+    string connection = 1;
+    string action = 2;
+    string email = 3;
+    string phone = 4;
+}
+
+// response
+message RegisterAccountResponse {
+    string email = 1;
+    string user_name = 2;
+    string href = 3;
+}
+message LoginAccountResponse {
+    string account_id = 1;
+    AccountStatus status = 2;
+    string access_token = 3;
+    string refresh_token = 4;
+    string token_type = 5;
+    int64 token_expire_in = 6;
+    int64 refresh_expire_in = 7;
+}
+message GetAllAccountResponse {
+    common.Pagination meta = 1;
+    repeated AccountInfo accounts = 2;
+}
+
+message VerificationResponse {
+    enum VeriResult {
+        Ok = 0;
+        TokenError = 1;
+        NoAccount = 2;
+        Verified = 3;
+        AccountFreezed = 4;
+        InternalError = 5;
+    }
+    VeriResult result = 1;
+}
+message CheckAccessTokenResponse {
+    string account_id = 1;
+    string app_id = 2;
+    AccountType account_type = 3; // admin,user...etc
+    string regis_mode = 4;
+    AccountStatus status = 5; //
+
+    bool ev_status = 6;        // email 驗證狀態
+    bool pv_status = 7;        // phone 驗證狀態
+    Permission permission = 8; // 權限
+
+    string email = 9;  // user email
+    string phone = 10; // user phone (optional)
+    bool email_noti = 11;
+    bool phone_noti = 12;
+}
+
+enum AccountType {
+    AccountType_UNKNOWN = 0; // Unknown type, usually used as the default value
+    AccountType_ADMIN = 1;   // Full access permission, can manage all system resources and settings
+    AccountType_USER = 2;    // General user with access to basic functionalities only
+    AccountType_VENDOR = 3;  // Product provider with access to certain backend features for product
+                             // or order management
+    AccountType_STAFF = 4;   // Operator with access to most resources but without administrator privileges
+}
+
+// model
+message AccountInfo {
+    string account_id = 1;
+    string app_id = 2;
+    AccountType account_type = 3;
+    string regis_mode = 4;
+    AccountStatus status = 5; //
+
+    bool ev_status = 6;        // email 驗證狀態
+    bool pv_status = 7;        // phone 驗證狀態
+    Permission permission = 8; // 權限
+
+    string password = 9; // user password
+    string email = 10;   // user email
+    string phone = 11;
+
+    int64 login_at = 12;   // timestamp ms
+    int64 logout_at = 13;  // timestamp ms
+    int64 created_at = 14; // timestamp ms
+    int64 updated_at = 15; // timestamp ms
+    int64 deleted_at = 16; // timestamp ms
+}
+message UserProfile {
+    string account_id = 1;
+    // profile
+    string user_name = 2;
+    bytes icon = 3;
+    string description = 4;
+    string gender = 5;
+    Date birthday = 6;
+    string job = 7;
+    string country = 8;
+    string city = 9;
+    string district = 18;
+    string zip_code = 19;
+    string address = 10;
+    repeated Adderss shipping_address = 11;
+    // personal setting
+    string language = 12;
+    bool email_noti = 13;
+    bool phone_noti = 14;
+
+    int64 created_at = 15; // timestamp ms
+    int64 updated_at = 16; // timestamp ms
+    int64 deleted_at = 17; // timestamp ms
+}
+
+message Date {
+    int32 day = 1;
+    int32 month = 2;
+    int32 year = 3;
+}
+
+message Permission {
+    bool can_access_cross_account = 7;     // Allow managing or viewing resources across accounts
+    bool can_read_product = 1;             // View product details
+    bool can_modify_product = 2;           // Create, update, or delete products
+    bool can_read_order = 3;               // View order details
+    bool can_modify_order = 4;             // Create, update, or cancel orders
+    bool can_receive_emails = 5;           // Subscribe to promotional or notification emails
+    bool can_participate_in_marketing = 6; // Participate in joint marketing campaigns
+}
+
+message Adderss {
+    string type = 1; // 宅配、超商(711.全家...etc)
+    string country = 2;
+    string city = 3;
+    string district = 5;
+    string zip_code = 6;
+    string address = 4;
+    string store_id = 7;
+}
+
+message ListProfilesRequest {
+    repeated string account_ids = 1;
+    uint32 page = 2;
+    uint32 perpage = 3;
+}
+
+message ListProfilesResponse {
+    common.Pagination meta = 1;
+    repeated UserProfile profiles = 2;
+}
+
+message ReFreshTokenRequest { string refresh_token = 1; }
+
+message ReFreshTokenResponse {
+    string account_id = 1;
+    string access_token = 2;
+    string refresh_token = 3;
+    string token_type = 4;
+    int64 token_expire_in = 5;
+    int64 refresh_expire_in = 6;
+}
+
+message SetAccountBlockStatusRequest {
+    string account_id = 1;
+    bool is_blocked = 2;
+}
+
+enum AccountStatus {
+    AccountStatus_UNKNOWN = 0;
+    AccountStatus_ENABLED = 1;
+    AccountStatus_DELETED = 2;
+    AccountStatus_BLOCKED = 3;
+}
+
+message CreateAccountRequest {
+    string app_id = 1;
+    AccountType account_type = 2;
+    string regis_mode = 3;
+    AccountStatus status = 4;  //
+    Permission permission = 5; // 權限
+    string password = 6;       // user password
+    string email = 7;          // user email
+    string phone = 8;
+    string user_name = 9;
+    string gender = 10;
+    common.BoolType email_noti = 11;
+    common.BoolType phone_noti = 12;
+}
+
+message CreateAccountResponse {
+    string account_id = 1;
+    AccountType account_type = 2;
+    string email = 3; // user email
+}

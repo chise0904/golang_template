@@ -1,0 +1,9 @@
+syntax            = "proto3";
+option go_package = "github.com/chise0904/golang_template/proto/pkg/common";
+package common;
+
+enum BoolType {
+    NoSet = 0;
+    True  = 1;
+    False = 2;
+}

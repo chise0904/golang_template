@@ -1,0 +1,11 @@
+syntax = "proto3";
+package message;
+
+option go_package = "github.com/chise0904/golang_template/proto/pkg/identity/message";
+
+message UserMailNotification {
+    string user_id = 1;
+    string title = 2;
+    string text_content = 3;
+    string html_content = 4;
+}
