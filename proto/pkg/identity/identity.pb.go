@@ -14,7 +14,7 @@ import (
 	common "github.com/chise0904/golang_template/proto/pkg/common"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	empty "google.golang.org/protobuf/types/known/emptypb"
+	_ "google.golang.org/protobuf/types/known/emptypb"
 )
 
 const (
@@ -2880,27 +2880,10 @@ const file_identity_identity_proto_rawDesc = "" +
 	"\x15AccountStatus_UNKNOWN\x10\x00\x12\x19\n" +
 	"\x15AccountStatus_ENABLED\x10\x01\x12\x19\n" +
 	"\x15AccountStatus_DELETED\x10\x02\x12\x19\n" +
-	"\x15AccountStatus_BLOCKED\x10\x032\xe1\n" +
-	"\n" +
+	"\x15AccountStatus_BLOCKED\x10\x032\xbb\x01\n" +
 	"\x0fIdentityService\x12V\n" +
 	"\x0fRegisterAccount\x12 .identity.RegisterAccountRequest\x1a!.identity.RegisterAccountResponse\x12P\n" +
-	"\rCreateAccount\x12\x1e.identity.CreateAccountRequest\x1a\x1f.identity.CreateAccountResponse\x12W\n" +
-	"\x11EmailVerification\x12\".identity.EmailVerificationRequest\x1a\x1e.identity.VerificationResponse\x12C\n" +
-	"\vSetPassword\x12\x1c.identity.SetPasswordRequest\x1a\x16.google.protobuf.Empty\x12M\n" +
-	"\x10DeleteOneAccount\x12!.identity.DeleteOneAccountRequest\x1a\x16.google.protobuf.Empty\x12F\n" +
-	"\rGetOneAccount\x12\x1e.identity.GetOneAccountRequest\x1a\x15.identity.AccountInfo\x12P\n" +
-	"\rGetAllAccount\x12\x1e.identity.GetAllAccountRequest\x1a\x1f.identity.GetAllAccountResponse\x12@\n" +
-	"\n" +
-	"GetProfile\x12\x1b.identity.GetProfileRequest\x1a\x15.identity.UserProfile\x12M\n" +
-	"\fListProfiles\x12\x1d.identity.ListProfilesRequest\x1a\x1e.identity.ListProfilesResponse\x12G\n" +
-	"\rUpdateProfile\x12\x1e.identity.UpdateProfileRequest\x1a\x16.google.protobuf.Empty\x12I\n" +
-	"\x0eChangeContacts\x12\x1f.identity.ChangeContactsRequest\x1a\x16.google.protobuf.Empty\x12O\n" +
-	"\x11ModifyPermissions\x12\".identity.ModifyPermissionsRequest\x1a\x16.google.protobuf.Empty\x12M\n" +
-	"\fLoginAccount\x12\x1d.identity.LoginAccountRequest\x1a\x1e.identity.LoginAccountResponse\x12M\n" +
-	"\fReFreshToken\x12\x1d.identity.ReFreshTokenRequest\x1a\x1e.identity.ReFreshTokenResponse\x12Y\n" +
-	"\x10CheckAccessToken\x12!.identity.CheckAccessTokenRequest\x1a\".identity.CheckAccessTokenResponse\x12U\n" +
-	"\x14SendVerificationCode\x12%.identity.SendVerificationCodeRequest\x1a\x16.google.protobuf.Empty\x12W\n" +
-	"\x15SetAccountBlockStatus\x12&.identity.SetAccountBlockStatusRequest\x1a\x16.google.protobuf.EmptyB9Z7github.com/chise0904/golang_template/proto/pkg/identityb\x06proto3"
+	"\rCreateAccount\x12\x1e.identity.CreateAccountRequest\x1a\x1f.identity.CreateAccountResponseB9Z7github.com/chise0904/golang_template/proto/pkg/identityb\x06proto3"
 
 var (
 	file_identity_identity_proto_rawDescOnce sync.Once
@@ -2952,7 +2935,6 @@ var file_identity_identity_proto_goTypes = []any{
 	(*CreateAccountResponse)(nil),        // 32: identity.CreateAccountResponse
 	(common.BoolType)(0),                 // 33: common.BoolType
 	(*common.Pagination)(nil),            // 34: common.Pagination
-	(*empty.Empty)(nil),                  // 35: google.protobuf.Empty
 }
 var file_identity_identity_proto_depIdxs = []int32{
 	24, // 0: identity.RegisterAccountRequest.permission:type_name -> identity.Permission
@@ -2984,40 +2966,10 @@ var file_identity_identity_proto_depIdxs = []int32{
 	0,  // 26: identity.CreateAccountResponse.account_type:type_name -> identity.AccountType
 	3,  // 27: identity.IdentityService.RegisterAccount:input_type -> identity.RegisterAccountRequest
 	31, // 28: identity.IdentityService.CreateAccount:input_type -> identity.CreateAccountRequest
-	4,  // 29: identity.IdentityService.EmailVerification:input_type -> identity.EmailVerificationRequest
-	5,  // 30: identity.IdentityService.SetPassword:input_type -> identity.SetPasswordRequest
-	6,  // 31: identity.IdentityService.DeleteOneAccount:input_type -> identity.DeleteOneAccountRequest
-	7,  // 32: identity.IdentityService.GetOneAccount:input_type -> identity.GetOneAccountRequest
-	8,  // 33: identity.IdentityService.GetAllAccount:input_type -> identity.GetAllAccountRequest
-	9,  // 34: identity.IdentityService.GetProfile:input_type -> identity.GetProfileRequest
-	26, // 35: identity.IdentityService.ListProfiles:input_type -> identity.ListProfilesRequest
-	10, // 36: identity.IdentityService.UpdateProfile:input_type -> identity.UpdateProfileRequest
-	11, // 37: identity.IdentityService.ChangeContacts:input_type -> identity.ChangeContactsRequest
-	12, // 38: identity.IdentityService.ModifyPermissions:input_type -> identity.ModifyPermissionsRequest
-	13, // 39: identity.IdentityService.LoginAccount:input_type -> identity.LoginAccountRequest
-	28, // 40: identity.IdentityService.ReFreshToken:input_type -> identity.ReFreshTokenRequest
-	14, // 41: identity.IdentityService.CheckAccessToken:input_type -> identity.CheckAccessTokenRequest
-	15, // 42: identity.IdentityService.SendVerificationCode:input_type -> identity.SendVerificationCodeRequest
-	30, // 43: identity.IdentityService.SetAccountBlockStatus:input_type -> identity.SetAccountBlockStatusRequest
-	16, // 44: identity.IdentityService.RegisterAccount:output_type -> identity.RegisterAccountResponse
-	32, // 45: identity.IdentityService.CreateAccount:output_type -> identity.CreateAccountResponse
-	19, // 46: identity.IdentityService.EmailVerification:output_type -> identity.VerificationResponse
-	35, // 47: identity.IdentityService.SetPassword:output_type -> google.protobuf.Empty
-	35, // 48: identity.IdentityService.DeleteOneAccount:output_type -> google.protobuf.Empty
-	21, // 49: identity.IdentityService.GetOneAccount:output_type -> identity.AccountInfo
-	18, // 50: identity.IdentityService.GetAllAccount:output_type -> identity.GetAllAccountResponse
-	22, // 51: identity.IdentityService.GetProfile:output_type -> identity.UserProfile
-	27, // 52: identity.IdentityService.ListProfiles:output_type -> identity.ListProfilesResponse
-	35, // 53: identity.IdentityService.UpdateProfile:output_type -> google.protobuf.Empty
-	35, // 54: identity.IdentityService.ChangeContacts:output_type -> google.protobuf.Empty
-	35, // 55: identity.IdentityService.ModifyPermissions:output_type -> google.protobuf.Empty
-	17, // 56: identity.IdentityService.LoginAccount:output_type -> identity.LoginAccountResponse
-	29, // 57: identity.IdentityService.ReFreshToken:output_type -> identity.ReFreshTokenResponse
-	20, // 58: identity.IdentityService.CheckAccessToken:output_type -> identity.CheckAccessTokenResponse
-	35, // 59: identity.IdentityService.SendVerificationCode:output_type -> google.protobuf.Empty
-	35, // 60: identity.IdentityService.SetAccountBlockStatus:output_type -> google.protobuf.Empty
-	44, // [44:61] is the sub-list for method output_type
-	27, // [27:44] is the sub-list for method input_type
+	16, // 29: identity.IdentityService.RegisterAccount:output_type -> identity.RegisterAccountResponse
+	32, // 30: identity.IdentityService.CreateAccount:output_type -> identity.CreateAccountResponse
+	29, // [29:31] is the sub-list for method output_type
+	27, // [27:29] is the sub-list for method input_type
 	27, // [27:27] is the sub-list for extension type_name
 	27, // [27:27] is the sub-list for extension extendee
 	0,  // [0:27] is the sub-list for field type_name

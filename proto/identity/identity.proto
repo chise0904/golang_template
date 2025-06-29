@@ -9,27 +9,25 @@ import "common/type.proto";
 
 service IdentityService {
     rpc RegisterAccount(RegisterAccountRequest) returns (RegisterAccountResponse); // reqister user account
-
-    rpc CreateAccount(CreateAccountRequest)
-        returns (CreateAccountResponse); // create account with account type (admin only)
-    rpc EmailVerification(EmailVerificationRequest) returns (VerificationResponse);
-    rpc SetPassword(SetPasswordRequest) returns (google.protobuf.Empty);
-    rpc DeleteOneAccount(DeleteOneAccountRequest) returns (google.protobuf.Empty);
-    rpc GetOneAccount(GetOneAccountRequest) returns (AccountInfo);
-    rpc GetAllAccount(GetAllAccountRequest) returns (GetAllAccountResponse);
-    rpc GetProfile(GetProfileRequest) returns (UserProfile);
-    rpc ListProfiles(ListProfilesRequest) returns (ListProfilesResponse);
-    rpc UpdateProfile(UpdateProfileRequest) returns (google.protobuf.Empty);
-    rpc ChangeContacts(ChangeContactsRequest) // change email,phone
-        returns (google.protobuf.Empty);
-    rpc ModifyPermissions(ModifyPermissionsRequest) returns (google.protobuf.Empty);
-
-    rpc LoginAccount(LoginAccountRequest) returns (LoginAccountResponse);
-    rpc ReFreshToken(ReFreshTokenRequest) returns (ReFreshTokenResponse);
-    rpc CheckAccessToken(CheckAccessTokenRequest) returns (CheckAccessTokenResponse);
-    rpc SendVerificationCode(SendVerificationCodeRequest) returns (google.protobuf.Empty);
-
-    rpc SetAccountBlockStatus(SetAccountBlockStatusRequest) returns (google.protobuf.Empty);
+    rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse); // create account with account type (admin only)
+    // rpc EmailVerification(EmailVerificationRequest) returns (VerificationResponse);
+    // rpc SetPassword(SetPasswordRequest) returns (google.protobuf.Empty);
+    // rpc DeleteOneAccount(DeleteOneAccountRequest) returns (google.protobuf.Empty);
+    // rpc GetOneAccount(GetOneAccountRequest) returns (AccountInfo);
+    // rpc GetAllAccount(GetAllAccountRequest) returns (GetAllAccountResponse);
+    // rpc GetProfile(GetProfileRequest) returns (UserProfile);
+    // rpc ListProfiles(ListProfilesRequest) returns (ListProfilesResponse);
+    // rpc UpdateProfile(UpdateProfileRequest) returns (google.protobuf.Empty);
+    // rpc ChangeContacts(ChangeContactsRequest) // change email,phone
+    //     returns (google.protobuf.Empty);
+    // rpc ModifyPermissions(ModifyPermissionsRequest) returns (google.protobuf.Empty);
+// 
+    // rpc LoginAccount(LoginAccountRequest) returns (LoginAccountResponse);
+    // rpc ReFreshToken(ReFreshTokenRequest) returns (ReFreshTokenResponse);
+    // rpc CheckAccessToken(CheckAccessTokenRequest) returns (CheckAccessTokenResponse);
+    // rpc SendVerificationCode(SendVerificationCodeRequest) returns (google.protobuf.Empty);
+// 
+    // rpc SetAccountBlockStatus(SetAccountBlockStatusRequest) returns (google.protobuf.Empty);
 }
 
 // request

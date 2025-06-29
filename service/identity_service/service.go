@@ -8,49 +8,48 @@ import (
 	"io"
 	"math/rand"
 	"strings"
+	"time"
 
+	// "github.com/redis/go-redis/v9"
 	"github.com/chise0904/golang_template/repository"
 	"github.com/chise0904/golang_template/service"
-	"github.com/redis/go-redis/v9"
-
-	// "github.com/chise0904/golang_template/pkg/recommender/gorse"
-	"github.com/chise0904/golang_template/pkg/time"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type svc struct {
-	config            *service.WebServiceConfig
-	oauthConfig       *service.OAuthConfig
+	// config             *service.WebServiceConfig
+	// oauthConfig        *service.OAuthConfig
 	accessTokenConfig *service.AccessTokenConfig
 	repo              repository.IdentityRepository
 	// gorseClient        gorse.GorseClient
-	redisClusterClient *redis.ClusterClient
-	notifyConfig       *service.NotifyServiceConfig
-	notifySvc          service.NotifyService
-	jwtAuthSvc         service.JWTAuthAService
+	// redisClusterClient *redis.ClusterClient
+	// notifyConfig       *service.NotifyServiceConfig
+	// notifySvc          service.NotifyService
+	// jwtAuthSvc         service.JWTAuthAService
 }
 
 func NewIdentityService(
-	config *service.WebServiceConfig,
-	notifyConfig *service.NotifyServiceConfig,
-	oauthConfig *service.OAuthConfig,
+	// config *service.WebServiceConfig,
+	// notifyConfig *service.NotifyServiceConfig,
+	// oauthConfig *service.OAuthConfig,
 	accessTokenConfig *service.AccessTokenConfig,
-	redisClusterClient *redis.ClusterClient,
+	// redisClusterClient *redis.ClusterClient,
 	repo repository.IdentityRepository,
 	// gorseClient gorse.GorseClient,
-	notifySvc service.NotifyService,
-	jwtAuthSvc service.JWTAuthAService) service.IdentityService {
+	// notifySvc service.NotifyService,
+	// jwtAuthSvc service.JWTAuthAService
+) service.IdentityService {
 
 	return &svc{
-		config:            config,
-		oauthConfig:       oauthConfig,
-		accessTokenConfig: accessTokenConfig,
-		repo:              repo,
+		// config:             config,
+		// oauthConfig:        oauthConfig,
+		repo: repo,
 		// gorseClient:        gorseClient,
-		redisClusterClient: redisClusterClient,
-		notifySvc:          notifySvc,
-		notifyConfig:       notifyConfig,
-		jwtAuthSvc:         jwtAuthSvc,
+		// redisClusterClient: redisClusterClient,
+		// notifySvc:          notifySvc,
+		// notifyConfig:       notifyConfig,
+		// jwtAuthSvc:         jwtAuthSvc,
+		accessTokenConfig: accessTokenConfig,
 	}
 }
 
@@ -116,7 +115,7 @@ func CheckPasswordHash(password, hash string) bool {
 func Krand(size int, kind int) []byte {
 	ikind, kinds, result := kind, [][]int{{10, 48}, {26, 97}, {26, 65}}, make([]byte, size)
 	is_all := kind > 2 || kind < 0
-	rand.Seed(time.NowMS())
+	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < size; i++ {
 		if is_all { // random ikind
 			ikind = rand.Intn(3)

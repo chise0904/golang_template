@@ -1,30 +1,8 @@
 package service
 
-import (
-	"time"
-
-	"github.com/chise0904/golang_template/proto/pkg/identity"
-	"github.com/chise0904/golang_template/repository"
-	"github.com/golang-jwt/jwt"
-)
-
-type WebServiceConfig struct {
-	IdentityWebURL            string `mapstructure:"identity_web_url"`
-	Language                  string `mapstructure:"language"`
-	StatusOK                  string `mapstructure:"statusOK"`
-	StatusTokenError          string `mapstructure:"statusTokenError"`
-	StatusNoAccount           string `mapstructure:"statusNoAccount"`
-	StatusVerified            string `mapstructure:"statusVerified"`
-	StatusAccountFreezed      string `mapstructure:"statusAccountFreezed"`
-	StatusServerInternalError string `mapstructure:"statusServerInternalError"`
-}
-
-type OAuthConfig struct {
-	GoogleSecretKey   string `mapstructure:"google_secret_key"`
-	GoogleClientID    string `mapstructure:"google_client_id"`
-	GoogleRedirectURL string `mapstructure:"google_redirect_url"`
-	GoogleOAuthState  string `mapstructure:"google_oauth_state"`
-}
+// import (
+// 	 "time"
+// )
 
 type GoogleUser struct {
 	Sub           string `json:"sub"`
@@ -68,37 +46,6 @@ type SetPassword struct {
 	Email       string `json:"email"`        // 用戶 email
 	Code        string `json:"code"`         // verify code
 	Password    string `json:"password"`     // 用戶 密碼
-}
-
-type CheckAccessToken struct {
-	AccountID   string                 `json:"account_id"`
-	AppID       string                 `json:"app_id"`
-	AccountType identity.AccountType   `json:"account_type"` // admin,user...etc
-	RegisMode   string                 `json:"regis_mode"`   // default,google...etc
-	Status      identity.AccountStatus `json:"status"`       //
-	EvStatus    bool                   `json:"ev_status"`    // email 驗證狀態
-	PvStatus    bool                   `json:"pv_status"`    // phone 驗證狀態
-	Permission  repository.Permission  `json:"permission"`   // 權限
-	Password    string                 `json:"password"`     // user password
-	Email       string                 `json:"email"`        // user email
-	Phone       string                 `json:"phone"`
-	Email_noti  bool                   `json:"email_noti"`
-	Phone_noti  bool                   `json:"phone_noti"`
-}
-
-type UserClaims struct {
-	TokenType      string                     `json:"type"`
-	AccountInfo    *repository.AccountInfo    `json:"account_info"`
-	AccountProfile *repository.AccountProfile `json:"profile"`
-}
-
-type JWTAuthClaims struct {
-	jwt.StandardClaims
-	Fields map[string]any `json:"fields"`
-}
-
-func (j *JWTAuthClaims) IsExpired() bool {
-	return time.Now().UnixMilli() > j.StandardClaims.ExpiresAt
 }
 
 type AccessTokenConfig struct {

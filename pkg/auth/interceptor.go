@@ -5,8 +5,9 @@ import (
 	"encoding/json"
 
 	"github.com/chise0904/golang_template/pkg/errors"
-	"github.com/chise0904/golang_template/pkg/grpc/interceptor"
 	"github.com/rs/zerolog/log"
+
+	// "github.com/chise0904/golang_template/pkg/grpc/interceptor"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 )
@@ -96,12 +97,12 @@ func StreamServerAuthInterceptor() grpc.StreamServerInterceptor {
 			return handler(srv, ss)
 		}
 
-		_ss := interceptor.WrapServerStream(ss)
-		userClaims, err := GetUserClaimsFormIncomingContext(_ss.WrappedContext)
-		if err == nil {
-			_ss.WrappedContext = UserClaimsWithContext(_ss.WrappedContext, userClaims)
-		}
+		// _ss := interceptor.WrapServerStream(ss)
+		// userClaims, err := GetUserClaimsFormIncomingContext(_ss.WrappedContext)
+		// if err == nil {
+		// 	_ss.WrappedContext = UserClaimsWithContext(_ss.WrappedContext, userClaims)
+		// }
 
-		return handler(srv, _ss)
+		return handler(srv, ss)
 	}
 }

@@ -17,11 +17,12 @@ import (
 	configs "github.com/chise0904/golang_template/config"
 	"github.com/chise0904/golang_template/delivery"
 
-	// grpc_delivery "github.com/chise0904/golang_template/delivery/grpc"
+	grpc_delivery "github.com/chise0904/golang_template/delivery/grpc"
 	"github.com/spf13/cobra"
 
 	repo_impl "github.com/chise0904/golang_template/repository/impl"
-	// identity_service "github.com/chise0904/golang_template/service/identity_service"
+	identity_service "github.com/chise0904/golang_template/service/identity_service"
+
 	// jwt_auth "github.com/chise0904/golang_template/service/jwt_auth_service"
 	// notify "github.com/chise0904/golang_template/service/notify_service"
 
@@ -45,6 +46,8 @@ func run(cmd *cobra.Command, args []string) {
 		log.Fatal().Msg(err.Error())
 	}
 
+	log.Info().Msgf("config: %+v", cfg)
+
 	zlog.Setup(cfg.Log)
 	app := fx.New(
 		fx.WithLogger(zlog.FxLogger()),
@@ -57,12 +60,12 @@ func run(cmd *cobra.Command, args []string) {
 			repo_impl.NewIdentityRepo,
 			// jwt_auth.NewJWTAuthService,
 			// notify.NewNotifyService,
-			// identity_service.NewIdentityService,
+			identity_service.NewIdentityService,
 			// gorse.NewGorseClient,
 		),
 		fx.Invoke( // 用於啟動服務、註冊 handler 等
 			delivery.SetIdentityDelivery,
-			// grpc_delivery.RunStorageServiceGrpcHandler,
+			grpc_delivery.RunGrpcIdentityDelivery,
 			// notify.RunUserNotificationConsumer,
 		),
 	)

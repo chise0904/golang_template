@@ -9,7 +9,7 @@
             "program": "${workspaceFolder}/cmd/main.go",
             "args": ["server"],
             "env": {
-                "CONFIG_PATH": "${workspaceFolder}/config/config.yaml"
+                "CONFIG_PATH": "${workspaceFolder}/config"
             },
             "cwd": "${workspaceFolder}",
             "showLog": true,
@@ -23,7 +23,7 @@
             "program": "${workspaceFolder}/cmd/main.go",
             "args": ["server"],
             "env": {
-                "CONFIG_PATH": "${workspaceFolder}/config/config.yaml"
+                "CONFIG_PATH": "${workspaceFolder}/config"
             },
             "cwd": "${workspaceFolder}",
             "showLog": true,

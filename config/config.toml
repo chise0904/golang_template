@@ -1,0 +1,93 @@
+# 日志配置
+[log]
+env = "local"
+app_id = "golang_template"
+level = 6  # 0 Debug 1 INFO 2 Warn 3 Error
+debug = true
+enable_caller = true
+caller_min_level = 6
+
+# Web服务配置
+[web]
+mode = "debug"
+port = "8080"
+request_dump = true
+max_log_body_size = 1024
+
+# 数据库配置
+[database]
+secrets = "your-database-secrets"
+
+[database.read]
+type = "postgres"
+host = "172.17.0.5"
+port = 5432
+user = "admin"
+password = "admin"
+name = "identity"
+debug = true
+max_idle_conn = 10
+max_open_conn = 20
+max_lifetime = 14400
+read_timeout = "10s"
+write_timeout = "10s"
+ssl_enable = false
+search_path = ""
+
+[database.write]
+type = "postgres"
+host = "172.17.0.5"
+port = 5432
+user = "admin"
+password = "admin"
+name = "identity"
+debug = true
+max_idle_conn = 10
+max_open_conn = 20
+max_lifetime = 14400
+read_timeout = "10s"
+write_timeout = "10s"
+ssl_enable = false
+search_path = ""
+
+# Access Token配置
+[access]
+access_token_expires_in = 3600
+refresh_token_expires_in = 86400
+token_key = "your-secret-key"
+max_tokens = 1000
+
+# Redis配置 (已注释，根据需要启用)
+# [redis]
+# addrs = ["localhost:6379"]
+# password = ""
+# db = 0
+
+# gRPC配置
+[grpc]
+mode = "debug"
+port = ":9090"
+request_dump = true
+response_dump = true
+max_log_body_size = 1024
+
+# JetStream配置 (已注释，根据需要启用)
+# [jetstream]
+# urls = ["nats://localhost:4222"]
+# cluster_id = "test-cluster"
+# client_id = "test-client"
+
+# 邮件服务配置 (已注释，根据需要启用)
+# [notify_service]
+# [notify_service.email_setting]
+# token_expires_in = 3600
+# code_expires_in = 300
+# token_key = "your-secret-key"
+# mailgun_sender_mail = "noreply@example.com"
+# mailgun_sending_domain = "example.com"
+# mailgun_sending_api_key = "your-mailgun-api-key"
+
+# Gorse推荐系统配置 (已注释，根据需要启用)
+# [gorse]
+# api_url = "http://localhost:8088"
+# api_key = "your-gorse-api-key" 

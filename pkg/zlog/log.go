@@ -144,6 +144,7 @@ func Setup(config *Config) {
 		enableCaller:   config.EnableCaller,
 		callerMinLevel: config.CallerMinLevel,
 	}).With().Timestamp()
+
 	if len(fields) > 0 {
 		zctx = zctx.Fields(fields)
 	}

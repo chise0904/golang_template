@@ -7,12 +7,13 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/go-playground/validator/v10"
+
 	"github.com/chise0904/golang_template/pkg/errors"
 	"github.com/chise0904/golang_template/pkg/web"
 
 	"github.com/chise0904/golang_template/pkg/web/echo/middleware"
 
-	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/fx"
 )

@@ -1,51 +1,113 @@
 package delivery
 
-// import (
-// 	"net/http"
+import (
+	"net/http"
 
-// 	"github.com/labstack/echo/v4"
-// 	"gitlab.com/hsf-cloud/e-commerce/user-mgmt-server/repository"
-// 	"gitlab.com/hsf-cloud/e-commerce/user-mgmt-server/service"
+	"github.com/labstack/echo/v4"
+	// 	"gitlab.com/hsf-cloud/e-commerce/user-mgmt-server/repository"
+	// 	"gitlab.com/hsf-cloud/e-commerce/user-mgmt-server/service"
 
-// 	"github.com/chise0904/golang_template/pkg/errors"
-// 	"github.com/chise0904/golang_template/pkg/web"
-// )
+	"github.com/chise0904/golang_template/pkg/errors"
+	// "github.com/chise0904/golang_template/pkg/web"
+	"github.com/chise0904/golang_template/proto/pkg/common"
+	"github.com/chise0904/golang_template/proto/pkg/identity"
+)
 
-// type createAccountRequest struct {
-// 	Email    string `json:"email" form:"email" validate:"required"`         // 用戶 email
-// 	Password string `json:"password" form:"password" validate:"required"`   // 用戶 密碼
-// 	UserName string `json:"user_name" form:"user_name" validate:"required"` // 用戶 名稱
+type registerAccountRequest struct {
+	Email    string `json:"email" form:"email" validate:"required"`         // 用戶 email
+	Password string `json:"password" form:"password" validate:"required"`   // 用戶 密碼
+	UserName string `json:"user_name" form:"user_name" validate:"required"` // 用戶 名稱
+}
+type registerAccountResponse struct {
+	Email string `form:"email,omitempty" json:"email,omitempty" xml:"email,omitempty"`
+	// Phone string `form:"phone,omitempty" json:"phone,omitempty" xml:"phone,omitempty"`
+	// UserName string `form:"user_name,omitempty" json:"user_name,omitempty" xml:"user_name,omitempty"`
+	Href string `form:"href" json:"href" xml:"href"`
+}
 
-// }
-// type createAccountResponse struct {
-// 	Email string `form:"email,omitempty" json:"email,omitempty" xml:"email,omitempty"`
-// 	// Phone string `form:"phone,omitempty" json:"phone,omitempty" xml:"phone,omitempty"`
-// 	UserName string `form:"user_name,omitempty" json:"user_name,omitempty" xml:"user_name,omitempty"`
-// 	Href     string `form:"href" json:"href" xml:"href"`
-// }
+func (h *handler) registerAccount(c echo.Context) error {
+	req := &registerAccountRequest{}
+	err := c.Bind(req)
+	if err != nil {
+		return errors.NewError(errors.ErrorInvalidInput, err.Error())
+	}
 
-// func (h *handler) createAccount(c echo.Context) error {
-// 	req := &createAccountRequest{}
-// 	err := c.Bind(req)
-// 	if err != nil {
-// 		return errors.NewError(errors.ErrorInvalidInput, err.Error())
-// 	}
+	err = c.Validate(req)
+	if err != nil {
+		return errors.NewError(errors.ErrorInvalidInput, err.Error())
+	}
 
-// 	err = c.Validate(req)
-// 	if err != nil {
-// 		return errors.NewError(errors.ErrorInvalidInput, err.Error())
-// 	}
+	r, err := h.svc.RegisterAccount(c.Request().Context(), req.Email, req.Password, req.UserName, identity.AccountType_AccountType_USER, nil)
+	if err != nil {
+		return err
+	}
+	out := &registerAccountResponse{
+		Email: r.Email,
+		Href:  "",
+	}
+	return c.JSON(http.StatusCreated, out)
 
-// 	r, err := h.svc.CreateAccount(c.Request().Context(), req.Email, req.Password, req.UserName, "user")
-// 	if err != nil {
-// 		return err
-// 	}
-// 	out := &createAccountResponse{
-// 		Email: r.Email,
-// 		Href:  "",
-// 	}
-// 	return c.JSON(http.StatusCreated, out)
-// }
+}
+
+type createAccountRequest struct {
+	Email    string `json:"email" form:"email" validate:"required"`         // 用戶 email
+	Password string `json:"password" form:"password" validate:"required"`   // 用戶 密碼
+	UserName string `json:"user_name" form:"user_name" validate:"required"` // 用戶 名稱
+}
+
+type createAccountResponse struct {
+	Email string `form:"email,omitempty" json:"email,omitempty" xml:"email,omitempty"`
+	// Phone string `form:"phone,omitempty" json:"phone,omitempty" xml:"phone,omitempty"`
+	UserName string `form:"user_name,omitempty" json:"user_name,omitempty" xml:"user_name,omitempty"`
+	Href     string `form:"href" json:"href" xml:"href"`
+}
+
+func (h *handler) createAccount(c echo.Context) error {
+	req := &createAccountRequest{}
+	err := c.Bind(req)
+	if err != nil {
+		return errors.NewError(errors.ErrorInvalidInput, err.Error())
+	}
+
+	err = c.Validate(req)
+	if err != nil {
+		return errors.NewError(errors.ErrorInvalidInput, err.Error())
+	}
+
+	// 舊的HTTP創建帳號方式
+	// r, err := h.svc.CreateAccount(c.Request().Context(), req.Email, req.Password, req.UserName, "user")
+
+	// 創建 CreateAccountRequest
+	createReq := &identity.CreateAccountRequest{
+		Email:       req.Email,
+		Password:    req.Password,
+		UserName:    req.UserName,
+		AccountType: identity.AccountType_AccountType_USER,
+		RegisMode:   "NORMAL",
+		Status:      identity.AccountStatus_AccountStatus_ENABLED,
+		Permission: &identity.Permission{
+			CanAccessCrossAccount:     false,
+			CanReadProduct:            true,
+			CanModifyProduct:          true,
+			CanReadOrder:              true,
+			CanModifyOrder:            true,
+			CanReceiveEmails:          false,
+			CanParticipateInMarketing: false,
+		},
+		EmailNoti: common.BoolType_False,
+		PhoneNoti: common.BoolType_False,
+	}
+
+	r, err := h.svc.CreateAccount(c.Request().Context(), createReq)
+	if err != nil {
+		return err
+	}
+	out := &createAccountResponse{
+		Email: r.Email,
+		Href:  "",
+	}
+	return c.JSON(http.StatusCreated, out)
+}
 
 // type setPasswordRequest struct {
 // 	OldPassword string `json:"old_password" form:"old_password"`             // 用戶 舊密碼 - by password

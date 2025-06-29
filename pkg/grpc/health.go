@@ -34,3 +34,14 @@ func (h HealthCheckHandler) Watch(request *grpc_health_v1.HealthCheckRequest, se
 		Status: grpc_health_v1.HealthCheckResponse_SERVING,
 	})
 }
+
+// List implements the List RPC for grpc health check
+func (h HealthCheckHandler) List(ctx context.Context, request *grpc_health_v1.HealthListRequest) (*grpc_health_v1.HealthListResponse, error) {
+	return &grpc_health_v1.HealthListResponse{
+		Statuses: map[string]*grpc_health_v1.HealthCheckResponse{
+			"default": {
+				Status: grpc_health_v1.HealthCheckResponse_SERVING,
+			},
+		},
+	}, nil
+}

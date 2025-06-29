@@ -29,10 +29,11 @@ func SetIdentityWebDelivery(e *echo.Echo) {
 
 func setRouter(e *echo.Echo, h *handler) {
 
-	// apiV1PublicAccountsGroup := e.Group("/public/apis/v1/identity/accounts")
+	apiV1PublicAccountsGroup := e.Group("/public/apis/v1/identity/accounts")
 	// apiV1PublicAccountsGroupRequireToken := e.Group("/public/apis/v1/identity/accounts")
 
-	// apiV1PublicAccountsGroup.Add("POST", "/register", h.createAccount)
+	apiV1PublicAccountsGroup.Add("POST", "/register", h.registerAccount)
+	apiV1PublicAccountsGroup.Add("POST", "/create", h.createAccount)
 	// apiV1PublicAccountsGroup.Add("GET", "/emailVerification", h.emailVerification)
 
 	// apiV1PublicAccountsGroup.Add("POST", "/passwords", h.setPassword)
