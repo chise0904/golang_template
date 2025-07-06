@@ -7,6 +7,7 @@ toolchain go1.23.10
 require (
 	github.com/cenkalti/backoff/v4 v4.3.0
 	github.com/go-playground/validator/v10 v10.26.0
+	github.com/golang/protobuf v1.5.4
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgconn v1.14.3
 	github.com/labstack/echo/v4 v4.13.4

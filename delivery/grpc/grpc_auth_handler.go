@@ -1,14 +1,15 @@
 package grpc
 
-// import (
-// 	"context"
+import (
+	"context"
 
-// 	"github.com/chise0904/golang_template/service"
-// 	"github.com/chise0904/golang_template/pkg/errors"
-// 	"github.com/chise0904/golang_template/proto/pkg/identity"
-// 	protoIdentity "gitlab.com/hsf-cloud/proto/pkg/identity"
-// 	"google.golang.org/protobuf/types/known/emptypb"
-// )
+	"github.com/chise0904/golang_template/pkg/errors"
+	"github.com/chise0904/golang_template/service"
+
+	// 	"github.com/chise0904/golang_template/proto/pkg/identity"
+	protoIdentity "github.com/chise0904/golang_template/proto/pkg/identity"
+	// "google.golang.org/protobuf/types/known/emptypb"
+)
 
 // // CheckAccessToken implements identity.IdentityServiceServer.
 // func (i *handler) CheckAccessToken(c context.Context, req *protoIdentity.CheckAccessTokenRequest) (resp *identity.CheckAccessTokenResponse, err error) {
@@ -42,57 +43,57 @@ package grpc
 // }
 
 // // LoginAccount implements identity.IdentityServiceServer.
-// func (i *handler) LoginAccount(c context.Context, req *protoIdentity.LoginAccountRequest) (resp *protoIdentity.LoginAccountResponse, err error) {
-// 	if req.Connection != "email" && req.Connection != "sms" {
-// 		return nil, errors.NewError(errors.ErrorInvalidInput, "Invaild connection type")
-// 	}
-// 	in := &service.Login{
-// 		Connection: req.Connection,
-// 		Email:      req.Email,
-// 		Phone:      req.Phone,
-// 		Code:       req.Code,
-// 		Password:   req.Password,
-// 	}
-// 	switch req.GrantType {
-// 	case "password":
-// 		id, status, acTk, rfTk, tkExp, rfExp, err := i.svc.CreateAccessTokenByPassword(c, in)
-// 		if err != nil {
-// 			return nil, err
-// 		}
+func (i *handler) LoginAccount(c context.Context, req *protoIdentity.LoginAccountRequest) (resp *protoIdentity.LoginAccountResponse, err error) {
+	if req.Connection != "email" && req.Connection != "sms" {
+		return nil, errors.NewError(errors.ErrorInvalidInput, "Invaild connection type")
+	}
+	in := &service.Login{
+		Connection: req.Connection,
+		Email:      req.Email,
+		Phone:      req.Phone,
+		Code:       req.Code,
+		Password:   req.Password,
+	}
+	switch req.GrantType {
+	case "password":
+		id, status, acTk, rfTk, tkExp, rfExp, err := i.svc.CreateAccessTokenByPassword(c, in)
+		if err != nil {
+			return nil, err
+		}
 
-// 		resp = &protoIdentity.LoginAccountResponse{
-// 			AccountId:       id,
-// 			Status:          status,
-// 			AccessToken:     acTk,
-// 			RefreshToken:    rfTk,
-// 			TokenType:       "Bearer",
-// 			TokenExpireIn:   tkExp,
-// 			RefreshExpireIn: rfExp,
-// 		}
+		resp = &protoIdentity.LoginAccountResponse{
+			AccountId:       id,
+			Status:          status,
+			AccessToken:     acTk,
+			RefreshToken:    rfTk,
+			TokenType:       "Bearer",
+			TokenExpireIn:   tkExp,
+			RefreshExpireIn: rfExp,
+		}
 
-// 	case "authorization_code":
-// 		id, status, acTk, rfTk, tkExp, rfExp, err := i.svc.CreateAccessTokenByVeriCode(c, in)
-// 		if err != nil {
-// 			return nil, err
-// 		}
+	case "authorization_code":
+		id, status, acTk, rfTk, tkExp, rfExp, err := i.svc.CreateAccessTokenByVeriCode(c, in)
+		if err != nil {
+			return nil, err
+		}
 
-// 		resp = &protoIdentity.LoginAccountResponse{
-// 			AccountId:       id,
-// 			Status:          status,
-// 			AccessToken:     acTk,
-// 			RefreshToken:    rfTk,
-// 			TokenType:       "Bearer",
-// 			TokenExpireIn:   tkExp,
-// 			RefreshExpireIn: rfExp,
-// 		}
+		resp = &protoIdentity.LoginAccountResponse{
+			AccountId:       id,
+			Status:          status,
+			AccessToken:     acTk,
+			RefreshToken:    rfTk,
+			TokenType:       "Bearer",
+			TokenExpireIn:   tkExp,
+			RefreshExpireIn: rfExp,
+		}
 
-// 	case "refresh_token":
-// 	default:
-// 		return nil, errors.NewError(errors.ErrorInvalidInput, "Invaild grant type")
-// 	}
+	case "refresh_token":
+	default:
+		return nil, errors.NewError(errors.ErrorInvalidInput, "Invaild grant type")
+	}
 
-// 	return
-// }
+	return
+}
 
 // // SendVerificationCode implements identity.IdentityServiceServer.
 // func (i *handler) SendVerificationCode(c context.Context, req *protoIdentity.SendVerificationCodeRequest) (resp *emptypb.Empty, err error) {

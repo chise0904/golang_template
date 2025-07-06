@@ -10,7 +10,7 @@ caller_min_level = 6
 # Web服务配置
 [web]
 mode = "debug"
-port = "8080"
+port = "8083"
 request_dump = true
 max_log_body_size = 1024
 
@@ -20,7 +20,7 @@ secrets = "your-database-secrets"
 
 [database.read]
 type = "postgres"
-host = "172.17.0.5"
+host = "172.17.0.2"
 port = 5432
 user = "admin"
 password = "admin"
@@ -36,7 +36,7 @@ search_path = ""
 
 [database.write]
 type = "postgres"
-host = "172.17.0.5"
+host = "172.17.0.2"
 port = 5432
 user = "admin"
 password = "admin"

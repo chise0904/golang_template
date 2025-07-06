@@ -19,6 +19,9 @@ func NewConnection(config *Config) (Connection, error) {
 	var (
 		conn Connection
 	)
+
+	log.Info().Msg("setup DB")
+
 	readDB, err := setupDatabase(&config.Read)
 	if err != nil {
 		return conn, err

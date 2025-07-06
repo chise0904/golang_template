@@ -72,12 +72,32 @@ func (h callerHook) Run(e *zerolog.Event, level zerolog.Level, msg string) {
 }
 
 func Setup(config *Config) {
+	log.Info().Msg("Setup log")
 	zerolog.DisableSampling(true)
 	zerolog.TimestampFieldName = "time"
 	zerolog.TimeFieldFormat = time.RFC3339
 	zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack
 
-	level := zerolog.Level(config.Level)
+	// 將自定義級別映射到 zerolog 級別
+	var level zerolog.Level
+	switch config.Level {
+	case levelDebug:
+		level = zerolog.DebugLevel
+	case levelInfo:
+		level = zerolog.InfoLevel
+	case levelWarning:
+		level = zerolog.WarnLevel
+	case levelErr:
+		level = zerolog.ErrorLevel
+	case levelCrit:
+		level = zerolog.FatalLevel
+	case levelAlert, levelEmerg:
+		level = zerolog.PanicLevel
+	default:
+		level = zerolog.InfoLevel
+	}
+
+	log.Info().Msg("Setup log 2")
 
 	var logger zerolog.Logger
 	if config.Env == EnvLocal {
@@ -108,6 +128,7 @@ func Setup(config *Config) {
 			}
 			return fmt.Sprintf("|%-10s|", l)
 		}
+
 		output.FormatMessage = func(i interface{}) string {
 			return fmt.Sprintf("%-50s", i)
 		}
@@ -131,25 +152,41 @@ func Setup(config *Config) {
 		logger = zerolog.New(os.Stdout)
 	}
 
+	log.Info().Msg("Setup log 3")
+
 	// 設定基礎日誌欄位
 	fields := make(map[string]interface{})
 	if config.AppID != "" {
 		fields["app_id"] = config.AppID
 	}
+
+	log.Info().Msg("Setup log 4")
+
 	if config.Env != "" {
 		fields["env"] = config.Env
 	}
+
+	log.Info().Msg("Setup log 5")
 
 	zctx := logger.Hook(callerHook{
 		enableCaller:   config.EnableCaller,
 		callerMinLevel: config.CallerMinLevel,
 	}).With().Timestamp()
 
+	log.Info().Msg("Setup log 6")
+
 	if len(fields) > 0 {
 		zctx = zctx.Fields(fields)
 	}
 
+	log.Info().Msg("Setup log 7")
+
+	// 設置全局 Logger
 	log.Logger = zctx.Logger().Level(level)
+
+	// 使用新的 Logger 輸出完成信息
+	log.Info().Msg("Setup done")
+
 }
 
 // colorize returns the string s wrapped in ANSI code c, unless disabled is true.

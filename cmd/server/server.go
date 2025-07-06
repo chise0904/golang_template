@@ -49,6 +49,9 @@ func run(cmd *cobra.Command, args []string) {
 	log.Info().Msgf("config: %+v", cfg)
 
 	zlog.Setup(cfg.Log)
+
+	log.Info().Msg("new fx app")
+
 	app := fx.New(
 		fx.WithLogger(zlog.FxLogger()),
 		fx.Supply(cfg), // 	已經建構好的變數，如 config, logger

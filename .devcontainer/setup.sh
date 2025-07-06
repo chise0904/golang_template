@@ -21,8 +21,8 @@ bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/bins
 source /root/.gvm/scripts/gvm
 
 # Install Go 1.21 using GVM
-# gvm install go1.21
-# gvm use go1.21 --default
+gvm install go1.23.10
+gvm use go1.23.10 --default
 
 # Set up GOPATH
 mkdir -p /workspaces/go

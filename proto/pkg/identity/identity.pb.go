@@ -7,14 +7,13 @@
 package identity
 
 import (
+	common "github.com/chise0904/golang_template/proto/pkg/common"
+	_ "github.com/golang/protobuf/ptypes/empty"
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
-
-	common "github.com/chise0904/golang_template/proto/pkg/common"
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "google.golang.org/protobuf/types/known/emptypb"
 )
 
 const (
@@ -2880,10 +2879,11 @@ const file_identity_identity_proto_rawDesc = "" +
 	"\x15AccountStatus_UNKNOWN\x10\x00\x12\x19\n" +
 	"\x15AccountStatus_ENABLED\x10\x01\x12\x19\n" +
 	"\x15AccountStatus_DELETED\x10\x02\x12\x19\n" +
-	"\x15AccountStatus_BLOCKED\x10\x032\xbb\x01\n" +
+	"\x15AccountStatus_BLOCKED\x10\x032\x8a\x02\n" +
 	"\x0fIdentityService\x12V\n" +
 	"\x0fRegisterAccount\x12 .identity.RegisterAccountRequest\x1a!.identity.RegisterAccountResponse\x12P\n" +
-	"\rCreateAccount\x12\x1e.identity.CreateAccountRequest\x1a\x1f.identity.CreateAccountResponseB9Z7github.com/chise0904/golang_template/proto/pkg/identityb\x06proto3"
+	"\rCreateAccount\x12\x1e.identity.CreateAccountRequest\x1a\x1f.identity.CreateAccountResponse\x12M\n" +
+	"\fLoginAccount\x12\x1d.identity.LoginAccountRequest\x1a\x1e.identity.LoginAccountResponseB9Z7github.com/chise0904/golang_template/proto/pkg/identityb\x06proto3"
 
 var (
 	file_identity_identity_proto_rawDescOnce sync.Once
@@ -2966,10 +2966,12 @@ var file_identity_identity_proto_depIdxs = []int32{
 	0,  // 26: identity.CreateAccountResponse.account_type:type_name -> identity.AccountType
 	3,  // 27: identity.IdentityService.RegisterAccount:input_type -> identity.RegisterAccountRequest
 	31, // 28: identity.IdentityService.CreateAccount:input_type -> identity.CreateAccountRequest
-	16, // 29: identity.IdentityService.RegisterAccount:output_type -> identity.RegisterAccountResponse
-	32, // 30: identity.IdentityService.CreateAccount:output_type -> identity.CreateAccountResponse
-	29, // [29:31] is the sub-list for method output_type
-	27, // [27:29] is the sub-list for method input_type
+	13, // 29: identity.IdentityService.LoginAccount:input_type -> identity.LoginAccountRequest
+	16, // 30: identity.IdentityService.RegisterAccount:output_type -> identity.RegisterAccountResponse
+	32, // 31: identity.IdentityService.CreateAccount:output_type -> identity.CreateAccountResponse
+	17, // 32: identity.IdentityService.LoginAccount:output_type -> identity.LoginAccountResponse
+	30, // [30:33] is the sub-list for method output_type
+	27, // [27:30] is the sub-list for method input_type
 	27, // [27:27] is the sub-list for extension type_name
 	27, // [27:27] is the sub-list for extension extendee
 	0,  // [0:27] is the sub-list for field type_name

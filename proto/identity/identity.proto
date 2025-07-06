@@ -21,12 +21,12 @@ service IdentityService {
     // rpc ChangeContacts(ChangeContactsRequest) // change email,phone
     //     returns (google.protobuf.Empty);
     // rpc ModifyPermissions(ModifyPermissionsRequest) returns (google.protobuf.Empty);
-// 
-    // rpc LoginAccount(LoginAccountRequest) returns (LoginAccountResponse);
+
+    rpc LoginAccount(LoginAccountRequest) returns (LoginAccountResponse);
     // rpc ReFreshToken(ReFreshTokenRequest) returns (ReFreshTokenResponse);
     // rpc CheckAccessToken(CheckAccessTokenRequest) returns (CheckAccessTokenResponse);
     // rpc SendVerificationCode(SendVerificationCodeRequest) returns (google.protobuf.Empty);
-// 
+
     // rpc SetAccountBlockStatus(SetAccountBlockStatusRequest) returns (google.protobuf.Empty);
 }
 
